@@ -8,6 +8,6 @@ public class Homecontroller {
 
     @GetMapping("/")
     public String showHomePage() {
-        return "redirect:/sporten/overzicht";
+        return "redirect:/sports/overview";
     }
 }
