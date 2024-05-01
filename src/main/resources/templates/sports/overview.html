@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/overview.css}">
+</head>
+<body>
+    <h1>Sporten</h1>
+    <div class="content">
+        <th:block th:each="sport,iter: ${sportsList}">
+            <div class="card">
+                <img class="card-image" th:src="@{${sport.getImage()}}" alt="">
+                <div class="container">
+                    <h2 th:text="${sport.getName()}"></h2>
+                    <p>Architect & Engineer</p>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</body>
+</html>
