@@ -5,17 +5,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.SportService;
+import repository.SportRepository;
 
 @Controller
 @RequestMapping("/sports")
 public class SportsController {
     @Autowired
-    private SportService sportService;
+    private SportRepository repository;
 
     @GetMapping(value = "/overview")
     public String overviewSports(Model model) {
-        model.addAttribute("sportsList", sportService.getAllSports());
+        model.addAttribute("sportsList", repository.findAll());
         return "sports/overview";
     }
 }
