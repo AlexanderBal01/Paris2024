@@ -19,5 +19,6 @@ public class Paris20224Application implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addRedirectViewController("/", "/sports/overview");
+        //registry.addViewController("/403").setViewName("403");
     }
 }
