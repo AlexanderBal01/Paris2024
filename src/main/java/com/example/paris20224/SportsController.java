@@ -20,9 +20,9 @@ public class SportsController {
         return "sports/overview";
     }
 
-    @GetMapping(value = "/{sportId}")
+    @GetMapping(value = "/matches/{sportId}")
     public String viewSport(@PathVariable String sportId, Model model) {
         model.addAttribute("sport", repository.findByName(sportId));
-        return "sports/sport";
+        return "sports/matches-sport";
     }
 }
