@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -19,6 +21,7 @@ public class MyUser implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userid")
     private int id;
 
     @Column(nullable = false, unique = true)
@@ -34,10 +37,6 @@ public class MyUser implements Serializable {
     @Column(length = 20)
     private Role role;
 
-    public MyUser(String username, String password, String fullname, Role role) {
-        this.username = username;
-        this.password = password;
-        this.fullname = fullname;
-        this.role = role;
-    }
+    @OneToMany(mappedBy = "user")
+    private Set<Tickets> tickets = new HashSet<>();
 }

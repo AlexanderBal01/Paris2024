@@ -16,22 +16,16 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED )
 @EqualsAndHashCode(exclude = "id")
 @ToString(exclude = "id")
-public class Sport implements Serializable {
+public class Stadium implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sportid;
+    @Column(name = "stadiumid")
+    private int id;
 
     private String name;
 
-    private String imageDescription;
-
-    private String imageLocation;
-
-    @OneToMany(mappedBy = "sport")
-    private Set<SportDiscipline> disciplines = new HashSet<>();
-
-    @OneToMany(mappedBy = "sport")
-    private Set<Wedstrijd> sporten = new HashSet<>();
+    @OneToMany(mappedBy = "stadium")
+    private Set<Wedstrijd> wedstrijd = new HashSet<>();
 }

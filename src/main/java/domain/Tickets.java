@@ -5,8 +5,6 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -16,22 +14,19 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED )
 @EqualsAndHashCode(exclude = "id")
 @ToString(exclude = "id")
-public class Sport implements Serializable {
+public class Tickets implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sportid;
+    @Column(name = "ticketid")
+    private int id;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "userid")
+    private MyUser user;
 
-    private String imageDescription;
-
-    private String imageLocation;
-
-    @OneToMany(mappedBy = "sport")
-    private Set<SportDiscipline> disciplines = new HashSet<>();
-
-    @OneToMany(mappedBy = "sport")
-    private Set<Wedstrijd> sporten = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "wedstrijdid")
+    private Wedstrijd wedstrijd;
 }

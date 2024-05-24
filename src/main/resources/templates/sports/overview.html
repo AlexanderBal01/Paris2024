@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Paris2024 - sporten overzicht</title>
-    <link rel="stylesheet" th:href="@{/css/overview.css}">
+    <link rel="stylesheet" th:href="@{/css/sports/overview.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
 </head>
 <body>
-    <h1>Sporten</h1>
+    <ul class="navbar">
+        <li class="navbar active">Sporten</li>
+        <li class="navbar" th:if="${user.role.name() == 'USER' && !user.tickets.empty}"><a class="navbar" th:href="|/tickets/${user.username}|">Bekijk al je tickets</a></li>
+        <li class="navbar" style="float: right">
+            <form th:action="@{/logout}" method="post">
+                <input class="navbar" type="submit" value="Logout" />
+            </form>
+        </li>
+        <li class="navbar" style="float: right"><p class="navbar" th:text="${user.fullname}"></p></li>
+    </ul>
     <div class="content">
         <th:block th:each="sport,iter: ${sportsList}">
             <div class="card">

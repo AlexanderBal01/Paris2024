@@ -3,20 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Paris2024 - sporten overzicht</title>
-    <link rel="stylesheet" th:href="@{/css/overview.css}">
+    <link rel="stylesheet" th:href="@{/css/sports/matches-sport.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
 </head>
 <body>
-    <h1>Sporten</h1>
+    <ul class="navbar">
+        <li class="navbar active">Wedstrijden overzicht</li>
+        <li class="navbar" style="float: right">
+            <form th:action="@{/logout}" method="post">
+                <input class="navbar" type="submit" value="Logout" />
+            </form>
+        </li>
+        <li class="navbar" style="float: right"><p class="navbar" th:text="${user.fullname}"></p></li>
+    </ul>
     <div class="content">
-        <th:block th:each="sport,iter: ${sportsList}">
-            <div class="card">
-                <img class="card-image" th:src="@{${sport.imageLocation}}" th:alt="${sport.imageDescription}">
-                <div class="container">
-                    <h2 th:text="${sport.name}"></h2>
-                    <a class="btn" th:href="|#|" th:text="|Wedstrijd Scherm|"></a>
-                </div>
+        <div class="card">
+            <div class="div-table">
+                <table>
+                    <tr>
+                        <th>Sport</th>
+                        <th>Datum</th>
+                        <th>Aanvangsuur</th>
+                        <th>Stadium</th>
+                        <th>Discipline</th>
+                        <th>Vrije plaatsen</th>
+                        <th>prijs</th>
+                        <th>Mijn tickets</th>
+                        <th></th>
+                    </tr>
+                    <th:block th:each="wedstrijd,iter: ${wedstrijden}">
+                        <tr>
+                            <td th:text="${wedstrijd.sport.name}"></td>
+                            <td th:text="${wedstrijd.datum}"></td>
+                            <td th:text="${wedstrijd.startUur}"></td>
+                            <td th:text="${wedstrijd.stadium.name}"></td>
+                            <td th:text="${wedstrijd.discipline.name}"></td>
+                            <td th:text="${wedstrijd.aantalPlaatsen - wedstrijd.aantalBezettePlaatsen}"></td>
+                            <td>
+                                <span th:if="${user.role.name() == 'USER' && wedstrijd.aantalPlaatsen != wedstrijd.aantalBezettePlaatsen}" th:text="${wedstrijd.prijs}"></span>
+                                <span th:if="${user.role.name() == 'ADMIN'}" th:text="${wedstrijd.prijs}"></span>
+                            </td>
+                            <td><p th:text="${tickets.get(wedstrijd.wedstrijdid)}"></p></td>
+                        </tr>
+                    </th:block>
+
+                </table>
             </div>
-        </th:block>
+        </div>
     </div>
 </body>
 </html>
