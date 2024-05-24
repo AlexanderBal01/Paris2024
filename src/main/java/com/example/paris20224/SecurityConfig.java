@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -16,27 +16,31 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 public class SecurityConfig {
 
 	@Autowired
+	private UserDetailsService userDetailsService;
+
+	@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        auth.inMemoryAuthentication()
-          .withUser("nameUser").password(encoder.encode("12345678")).roles("USER").and()
-          .withUser("nameAdmin").password(encoder.encode("admin1234")).roles("USER","ADMIN");
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
     
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     	http.csrf(csrf -> csrf.csrfTokenRepository(new HttpSessionCsrfTokenRepository())).
     	authorizeHttpRequests(requests -> 
     		requests.requestMatchers("/login**").permitAll()
     				.requestMatchers("/css/**").permitAll()
 					.requestMatchers("/images/**").permitAll()
-					.requestMatchers("/sports/**").hasRole("USER")
-    				.requestMatchers("/*").hasRole("USER")).
+					.requestMatchers("/403**").permitAll()
+					.requestMatchers("/sports/**").hasAnyRole("USER", "ADMIN")
+		).
     	
     	formLogin(form -> 
     		form.defaultSuccessUrl("/sports/overview", true)
-                	.loginPage("/login"));
+                	.loginPage("/login")
+					.usernameParameter("username").passwordParameter("password")
+		)
+				.exceptionHandling(handling -> handling.accessDeniedPage("/403"));
     	
     	return http.build();
     	        
