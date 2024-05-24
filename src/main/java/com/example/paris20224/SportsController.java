@@ -52,6 +52,7 @@ public class SportsController {
             ticketsAantal.put(wedstrijd.getWedstrijdid(), tickets.size());
         }
 
+        model.addAttribute("sport", sport);
         model.addAttribute("wedstrijden", wedstrijden);
         model.addAttribute("user", user);
         model.addAttribute("tickets", ticketsAantal);

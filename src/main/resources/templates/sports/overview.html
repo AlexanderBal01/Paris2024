@@ -8,14 +8,14 @@
 </head>
 <body>
     <ul class="navbar">
-        <li class="navbar active">Sporten</li>
+        <li class="navbar active"><span class="navbar">Sporten</span></li>
         <li class="navbar" th:if="${user.role.name() == 'USER' && !user.tickets.empty}"><a class="navbar" th:href="|/tickets/${user.username}|">Bekijk al je tickets</a></li>
         <li class="navbar" style="float: right">
             <form th:action="@{/logout}" method="post">
                 <input class="navbar" type="submit" value="Logout" />
             </form>
         </li>
-        <li class="navbar" style="float: right"><p class="navbar" th:text="${user.fullname}"></p></li>
+        <li class="navbar" style="float: right"><span class="navbar" th:text="${user.fullname}"></span></li>
     </ul>
     <div class="content">
         <th:block th:each="sport,iter: ${sportsList}">

@@ -8,13 +8,14 @@
 </head>
 <body>
     <ul class="navbar">
-        <li class="navbar active">Wedstrijden overzicht</li>
+        <li class="navbar active"><span class="navbar">Wedstrijden overzicht</span></li>
+        <li class="navbar" th:if="${user.role.name() == 'ADMIN'}"><a class="navbar" th:href="|/sports/matches/${sport.name}/new-match|">Voeg nieuwe wedstrijd toe</a></li>
         <li class="navbar" style="float: right">
             <form th:action="@{/logout}" method="post">
                 <input class="navbar" type="submit" value="Logout" />
             </form>
         </li>
-        <li class="navbar" style="float: right"><p class="navbar" th:text="${user.fullname}"></p></li>
+        <li class="navbar" style="float: right"><span class="navbar" th:text="${user.fullname}"></span></li>
     </ul>
     <div class="content">
         <div class="card">
